@@ -1,6 +1,11 @@
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { User } from "../../entities/User";
+import { IGetUserRequestDTO } from './getUserDTO'
 
+const userFromDto = ({ id, name  }: IGetUserRequestDTO): IGetUserRequestDTO => ({
+    id,
+    name
+  });
 export class GetUserUseCase {
   constructor(
     private usersRepository: IUsersRepository,
@@ -9,7 +14,7 @@ export class GetUserUseCase {
   async execute() {
     const users = await this.usersRepository.get()
 
-    return users
+    return users.map(userFromDto)
 
     // await this.mailProvider.sendMail({
     //   to: {
